@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.drelang.seckillboot.dao.ProductOrderDao">
+    <insert id="insertOneLog" >
+        INSERT IGNORE INTO product_order (product_id, mobile, status)
+        VALUES (#{productId}, #{mobile}, 0);
+    </insert>
+
+    <select id="queryByIdWithProduct" resultType="ProductOrder">
+        SELECT
+               o.product_id,
+               o.mobile,
+               o.status,
+               o.create_time,
+               p.product_id as "product.product_id",
+               p.number as "product.number",
+               p.description as "product.description",
+               p.start_time as "product.start_time",
+               p.end_time as "product.end_time",
+               p.create_time as "product.create_time"
+        FROM product_order as o JOIN product as p
+            ON p.product_id = o.product_id
+        WHERE o.product_id = #{productId} AND o.mobile = #{mobile};
+    </select>
+</mapper>
